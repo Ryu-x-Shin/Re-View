@@ -14,7 +14,6 @@
   font-size: 16px;
   font-weight: 400;
   color: $hint-color;
-
 }
 
 .btn {
@@ -29,24 +28,24 @@
   border-radius: 8px;
 }
 
-.btn-signup{
+.btn-signup {
   margin-left: 24px;
 }
 
-.btn-findpw{
+.btn-findpw {
   margin-left: 60px;
 }
 
-.btn-link{
+.btn-link {
   display: inline-block;
   flex-grow: 1;
 }
 
-.login-failed{
-  display:"";
-  color: red
+.login-failed {
+  display: '';
+  color: red;
 }
 
-.login-init{
-  display:none;
+.login-init {
+  display: none;
 }

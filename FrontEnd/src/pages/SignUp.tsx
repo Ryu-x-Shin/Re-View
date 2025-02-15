@@ -1,12 +1,7 @@
-import AuthFormLayout from "../components/AuthFormLayout";
+import AuthFormLayout from '../components/AuthFormLayout';
 
 const SignUp = () => {
-  return (
-    <AuthFormLayout 
-      label="Register"
-      components={ <div></div> } 
-    />
-)
-}
+  return <AuthFormLayout label="Register" components={<div></div>} />;
+};
 
 export default SignUp;

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -10,7 +10,7 @@ const Home = () => {
         <Link to="/signup">회원가입</Link>
       </li>
     </ul>
-  )
-}
+  );
+};
 
 export default Home;
