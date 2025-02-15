@@ -1,7 +1,7 @@
 import { useCallback, useReducer } from "react";
 import LoginForm from "../components/LoginForm";
 import { Link } from "react-router-dom";
-import "./Login.scss"
+import styles from "./Login.module.scss"
 import AuthFormLayout from "../components/AuthFormLayout";
 
 type State = {
@@ -28,28 +28,36 @@ const Login = () => {
   const components= 
     <>
       <LoginForm
+        className={styles.component}
         label="Email"
         value={state.email}
         onChange={handleEmailChange}
       />
       <LoginForm
+        className={styles.component}
         label="Password"
         value={state.password}
         onChange={handlePasswordChange}
       />
 
-      <div>
-        <button>로그인</button>
+      <p className={styles['login-init']}>~이유로 로그인에 실패했습니다.</p>
+
+      <div  className={`${styles.component} ${styles['button-container']}`}>
+        <button className={styles['btn']}>로그인</button>
       </div>
 
-      <div>
-        <span className="button-description">혹시 처음이신가요?</span>
-        <Link to="/signup"><button>회원가입</button></Link>
+      <div className={`${styles.component} ${styles['button-container']}`}>
+        <span className={`${styles['button-description']}`}>혹시 처음이신가요?</span>
+        <Link className={`${styles['btn-signup']} ${styles['btn-link']}`} to="/signup">
+          <button className={styles['btn']}>회원가입</button>
+        </Link>
       </div>
 
-      <div>
-        <span className="button-description">비밀번호 찾기</span>
-        <Link to="/findpassword"><button>비밀번호 찾기</button></Link>
+      <div className={`${styles.component} ${styles['button-container']}`}>
+        <span className={styles['button-description']}>비밀번호 찾기</span>
+        <Link className={`${styles['btn-findpw']} ${styles['btn-link']}`} to="/findpassword">
+          <button className={styles['btn']}>비밀번호 찾기</button>
+        </Link>
       </div>
     </>
 
