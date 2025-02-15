@@ -13,7 +13,7 @@ module.exports = {
        *    (.+)$                   : 나머지(커밋 메시지 본문)를 캡처
        * - **주의:** Unicode property escapes (\p{Emoji})는 Node.js 12 이상에서 u 플래그와 함께 사용 가능합니다.
        */
-      headerPattern: /^((?:\p{Emoji})?[a-z]+)(?:\(([^)]+)\))?:\s(.+)$/u,
+      headerPattern: /^((?:[\p{Emoji}][\uFE0F]?)?[a-z]+)(?:\(([^)]+)\))?:\s(.+)$/u,
       headerCorrespondence: ['type', 'scope', 'subject'],
     },
   },
