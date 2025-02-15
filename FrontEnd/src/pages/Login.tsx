@@ -1,6 +1,8 @@
-import { useCallback, useReducer, useState } from "react";
+import { useCallback, useReducer } from "react";
 import LoginForm from "../components/LoginForm";
 import { Link } from "react-router-dom";
+import "./Login.scss"
+import AuthFormLayout from "../components/AuthFormLayout";
 
 type State = {
   email: string;
@@ -14,7 +16,6 @@ const reducer = (state: State, action: Action): State => ({
   [action.type]: action.value,
 });
 
-
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, { email: "", password: "" });
 
@@ -24,41 +25,41 @@ const Login = () => {
   const handleEmailChange = useCallback((value: string) => dispatch({type: "email", value}), []);
   const handlePasswordChange = useCallback((value: string) => dispatch({type: "password", value}), []);
 
-  
-  return (
+  const components= 
     <>
-      <span>Re:View</span>
+      <LoginForm
+        label="Email"
+        value={state.email}
+        onChange={handleEmailChange}
+      />
+      <LoginForm
+        label="Password"
+        value={state.password}
+        onChange={handlePasswordChange}
+      />
 
       <div>
-
-        <LoginForm
-          label="Email"
-          value={state.email}
-          onChange={handleEmailChange}
-        />
-        <LoginForm
-          label="Password"
-          value={state.password}
-          onChange={handlePasswordChange}
-        />
-
-        <div>
-          <button>로그인</button>
-        </div>
-
-        <div>
-          <span className="button-description">혹시 처음이신가요?</span>
-          <Link to="/signup"><button>회원가입</button></Link>
-        </div>
-
-        <div>
-          <span className="button-description">비밀번호 찾기</span>
-          <Link to="/findpassword"><button>비밀번호 찾기</button></Link>
-        </div>
-
+        <button>로그인</button>
       </div>
 
+      <div>
+        <span className="button-description">혹시 처음이신가요?</span>
+        <Link to="/signup"><button>회원가입</button></Link>
+      </div>
+
+      <div>
+        <span className="button-description">비밀번호 찾기</span>
+        <Link to="/findpassword"><button>비밀번호 찾기</button></Link>
+      </div>
     </>
+
+
+  
+  return (
+      <AuthFormLayout 
+        label="Re:View"
+        components={ components } 
+      />
   )
 
 }
