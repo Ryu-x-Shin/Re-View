@@ -22,11 +22,13 @@ export default defineConfig([
       react: require('eslint-plugin-react'),
       'react-hooks': require('eslint-plugin-react-hooks'),
       prettier: require('eslint-plugin-prettier'),
+      "unused-imports": require("eslint-plugin-unused-imports"),
     },
     rules: {
       // Prettier와 통합하여 코드 포맷팅 오류를 ESLint 오류로 처리합니다.
       'prettier/prettier': 'error',
-
+      // 사용하지 않는 import 제거
+      "unused-imports/no-unused-imports": "error",
       // TypeScript 관련 규칙 (프로젝트에 맞게 세밀하게 조정)
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
