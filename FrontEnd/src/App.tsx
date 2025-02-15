@@ -11,14 +11,14 @@ import FindPassword from './pages/FindPassword';
 function App() {
   return (
     <Routes>
-      <Route element={<AuthLayout/>}>
-        <Route path="/login" element={<Login/>} />
-        <Route path="/signup" element={<SignUp/>} />
-        <Route path="/findpassword" element={<FindPassword/>} />
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/findpassword" element={<FindPassword />} />
       </Route>
 
-      <Route element={<MainLayout/>}>
-        <Route index element={<Home/>} />
+      <Route element={<MainLayout />}>
+        <Route index element={<Home />} />
       </Route>
     </Routes>
   );
