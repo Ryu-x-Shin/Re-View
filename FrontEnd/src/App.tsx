@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import AuthLayout from './components/AuthCommonLayout';
 import MainLayout from './components/MainCommonLayout';
 import { Routes, Route } from 'react-router-dom';

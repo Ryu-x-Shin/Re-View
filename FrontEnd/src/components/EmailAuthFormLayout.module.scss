@@ -1,7 +1,7 @@
 @import '../styles/variable';
 
 .input {
-  width: 100%;
+  flex-grow: 1;
   height: 40px;
   border: 1.5px solid $input-border-color;
   border-radius: 8px;
@@ -13,9 +13,16 @@
   border: 2px solid rgba($color: #000000, $alpha: 0.7);
 }
 
-.label {
-  display: inline-block;
+.btn {
+  height: 40px;
   font-size: 16px;
-  line-height: 140%;
-  margin-bottom: 8px;
+  font-weight: 400;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-input {
+  margin: 0 10px;
 }
