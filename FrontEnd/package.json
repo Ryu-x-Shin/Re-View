@@ -62,17 +62,12 @@
     "prettier": "^3.5.0",
     "typescript-eslint": "^8.24.0"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "eslint --max-warnings=0",
-      "prettier --write",
-      "prettier --check"
+      "npx eslint --fix",
+      "npx eslint --max-warnings=0",
+      "npx prettier --write",
+      "npx prettier --check"
     ]
   }
 }

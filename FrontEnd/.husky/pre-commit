@@ -1,1 +1,4 @@
-npm test
+# FrontEnd 폴더의 eslitn.config.mjs 파일을 찾을 수 있도록 하기 위함
+# 깃은 기본적으로 root 폴더에서 시작하기 때문에 root에 있는 husky에서 현 위치의 husky의 precommit을 실행하도록 했고, root 폴더가 위치였기 때문에 eslint config를 제대로 잡지 못하는 문제 존재
+cd FrontEnd
+npx lint-staged
