@@ -32,7 +32,7 @@ const SignUp = () => {
 
   const components = (
     <>
-      <EmailAuthFormLayout />
+      <EmailAuthFormLayout className={styles.component} />
       <LoginForm
         className={styles.component}
         label="Password"
@@ -46,21 +46,24 @@ const SignUp = () => {
         onChange={handlePasswordRepeatChange}
       />
 
-      <div >
-        <span >NickName</span>
+      <div className={styles.component}>
+        <span className={styles.label}>NickName</span>
         <div style={{ display: 'flex' }}>
           <input
-            className={styles.input}
-            style={{ display: 'inline-block' }}
-            // className={styles['input']}
+            className={`${styles.input} ${styles['flex-grow']}`}
             // value={props.value}
             // onChange={(e) => props.onChange(e.target.value)}
           />
-          <button className={styles.btn}>중복 확인</button>
+          <button className={`${styles.btn} ${styles['btn-input']}`}>
+            중복 체크
+          </button>
         </div>
       </div>
-
-      <button className={styles.btn}>회원 가입</button>
+      <div className={`${styles.component}`}>
+        <button className={`${styles.btn} ${styles['full-width']}`}>
+          회원 가입
+        </button>
+      </div>
     </>
   );
   return <AuthFormLayout label="Register" components={components} />;

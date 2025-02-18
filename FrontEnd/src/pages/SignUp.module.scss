@@ -17,17 +17,30 @@
 }
 
 .btn {
-  width: 100%;
   height: 40px;
   font-size: 16px;
   font-weight: 400;
-  flex-grow: 1;
   background-color: black;
   color: white;
   border: none;
   border-radius: 8px;
 }
 
+.flex-grow{
+  flex-grow: 1;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.btn-input {
+  margin-left: 10px;
+}
+
+.btn-signup {
+
+}
 .btn-signup {
   margin-left: 24px;
 }
@@ -51,7 +64,6 @@
 }
 
 .input {
-  width: 100%;
   height: 40px;
   border: 1.5px solid $input-border-color;
   border-radius: 8px;
@@ -61,4 +73,11 @@
 
 .input:focus {
   border: 2px solid rgba($color: #000000, $alpha: 0.7);
+}
+
+.label {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 140%;
+  margin-bottom: 8px;
 }

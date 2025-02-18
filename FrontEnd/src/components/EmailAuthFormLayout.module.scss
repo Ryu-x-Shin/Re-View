@@ -12,3 +12,17 @@
 .input:focus {
   border: 2px solid rgba($color: #000000, $alpha: 0.7);
 }
+
+.btn {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.btn-input {
+  margin: 0 10px;
+}
