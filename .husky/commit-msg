@@ -1,1 +1,7 @@
+# FrontEnd 내부의 pre-commit 실행
+if [ -f "./FrontEnd/.husky/pre-commit" ]; then
+    echo "FrontEnd의 Eslint와 Prettier 검사를 위한 pre-commit 실행 중..."
+    sh ./FrontEnd/.husky/pre-commit
+    echo "검사 종료! Commit Template 검사 실행"
+fi
 npx commitlint --edit "$1"
