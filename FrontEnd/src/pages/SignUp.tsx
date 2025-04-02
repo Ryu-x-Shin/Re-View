@@ -66,7 +66,7 @@ const SignUp = () => {
       </div>
     </>
   );
-  return <AuthFormLayout label="Register" components={components} />;
+  return <AuthFormLayout label="회원가입" components={components} />;
 };
 
 export default SignUp;
