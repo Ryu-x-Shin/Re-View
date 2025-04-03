@@ -31,26 +31,26 @@
 #
 #
 ##################제목
-#✨feat - Jira Issue 번호: 새로운 기능 추가 (로그인 기능, 새로운 API 추가)
-#🐛fix - Jira Issue 번호: 버그 수정 (NullPointerException 해결)
-#🚑fix - Jira Issue 번호: 긴급 핫픽스 (서비스 장애 복구, 긴급 배포)
-#🧪test - Jira Issue 번호: 테스트 코드 추가 또는 수정 (유닛 테스트 추가, 테스트 개선)
-#♻️refactor - Jira Issue 번호: 기능 변경 없이 코드 구조 개선 (함수 분리, 코드 중복 제거)
-#✏️style - Jira Issue 번호: 단순 오타 수정
-#🎨style - Jira Issue 번호: 코드 포맷팅스타일 수정 (기능 변경 없음)(들여쓰기 수정, 공백 제거)
-#💄style - Jira Issue 번호: UI 스타일 추가 or 변경 (UI 구현 및 색상 변경, 버튼 크기 수정)
-#🔥chore - Jira Issue 번호: 불필요한 코드파일 삭제 (주석 제거, 사용하지 않는 파일 삭제)
-#📦chore - Jira Issue 번호: 패키지 추가 또는 의존성 설정 (라이브러리 추가 또는 업데이트)
-#🔧chore - Jira Issue 번호: 설정 파일 수정 (Gradle 설정 수정)
-#🚀release - Jira Issue 번호: 배포 또는 릴리즈 준비 (배포 브랜치 병합, 버전 태그 추가)
-#🔼deps - Jira Issue 번호: 의존성 업그레이드 (Retrofit 버전 업그레이드)
-#🔽deps - Jira Issue 번호: 의존성 다운그레이드 (호환성 문제로 버전 낮추기)
-#⚡perf - Jira Issue 번호: 성능 최적화 (API 호출 최적화, 로딩 시간 단축)
-#🐎perf - Jira Issue 번호: 실행 속도 개선 (데이터 처리 속도 개선)
-#📝docs - Jira Issue 번호: 문서 작성 또는 수정 (README 수정, 주석 추가)
-#🚨chore - Jira Issue 번호: 린터 경고 또는 오류 수정 (ESLint, Checkstyle 경고 해결)
-#🔒security - Jira Issue 번호: 보안 패치 또는 개선 (취약점 수정, 인증 추가)
-#🏗️refactor - Jira Issue 번호: 큰 구조 변경 (모듈화 작업, 폴더 구조 변경)
+#[Jira Issue 번호] ✨feat: 새로운 기능 추가 (로그인 기능, 새로운 API 추가)
+#[Jira Issue 번호] 🐛fix: 버그 수정 (NullPointerException 해결)
+#[Jira Issue 번호] 🚑fix: 긴급 핫픽스 (서비스 장애 복구, 긴급 배포)
+#[Jira Issue 번호] 🧪test: 테스트 코드 추가 또는 수정 (유닛 테스트 추가, 테스트 개선)
+#[Jira Issue 번호] ♻️refactor: 기능 변경 없이 코드 구조 개선 (함수 분리, 코드 중복 제거)
+#[Jira Issue 번호] ✏️style: 단순 오타 수정
+#[Jira Issue 번호] 🎨style: 코드 포맷팅스타일 수정 (기능 변경 없음)(들여쓰기 수정, 공백 제거)
+#[Jira Issue 번호] 💄style: UI 스타일 추가 or 변경 (UI 구현 및 색상 변경, 버튼 크기 수정)
+#[Jira Issue 번호] 🔥chore: 불필요한 코드파일 삭제 (주석 제거, 사용하지 않는 파일 삭제)
+#[Jira Issue 번호] 📦chore: 패키지 추가 또는 의존성 설정 (라이브러리 추가 또는 업데이트)
+#[Jira Issue 번호] 🔧chore: 설정 파일 수정 (Gradle 설정 수정)
+#[Jira Issue 번호] 🚀release: 배포 또는 릴리즈 준비 (배포 브랜치 병합, 버전 태그 추가)
+#[Jira Issue 번호] 🔼deps: 의존성 업그레이드 (Retrofit 버전 업그레이드)
+#[Jira Issue 번호] 🔽deps: 의존성 다운그레이드 (호환성 문제로 버전 낮추기)
+#[Jira Issue 번호] ⚡perf: 성능 최적화 (API 호출 최적화, 로딩 시간 단축)
+#[Jira Issue 번호] 🐎perf: 실행 속도 개선 (데이터 처리 속도 개선)
+#[Jira Issue 번호] 📝docs: 문서 작성 또는 수정 (README 수정, 주석 추가)
+#[Jira Issue 번호] 🚨chore: 린터 경고 또는 오류 수정 (ESLint, Checkstyle 경고 해결)
+#[Jira Issue 번호] 🔒security: 보안 패치 또는 개선 (취약점 수정, 인증 추가)
+#[Jira Issue 번호] 🏗️refactor: 큰 구조 변경 (모듈화 작업, 폴더 구조 변경)
 #
 ##################바디
 #- .gitignore 파일 추가
