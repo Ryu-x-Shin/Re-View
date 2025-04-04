@@ -16,7 +16,7 @@ export default [
       },
     },
     // ESLint가 적용될 파일들 지정 (대기업에서는 일반적으로 src 디렉토리에 집중)
-    files: ['src/**/*.{js,jsx,ts,tsx}'],
+    files: ['src/**/*.{js,jsx,ts,tsx}', 'netlify/functions/*.{js,jsx,ts,tsx}'],
     plugins: {
       // 공식 플러그인들을 불러옵니다.
       '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
