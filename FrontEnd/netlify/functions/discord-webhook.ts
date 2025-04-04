@@ -3,27 +3,45 @@ import { Handler } from '@netlify/functions';
 const handler: Handler = async (event) => {
   try {
     const payload = JSON.parse(event.body || '{}');
+    const deployTimeInSeconds = Math.floor(payload.deploy_time || 0);
+    const deployTimeString =
+      deployTimeInSeconds < 60
+        ? `${deployTimeInSeconds}초`
+        : `${Math.floor(deployTimeInSeconds / 60)}분 ${deployTimeInSeconds % 60}초`;
+
+    const statusColor =
+      payload.state === 'ready'
+        ? 0x00ff00
+        : payload.state === 'failed'
+        ? 0xff0000
+        : 0xffff00;
+    const statusMessage =
+      payload.state === 'ready'
+        ? '배포 완료'
+        : payload.state === 'failed'
+        ? '배포 실패'
+        : '배포 진행 중';
 
     const discordMessage = {
       username: 'Netlify Bot',
       embeds: [
         {
           title: '🚀 Netlify 배포 알림',
-          color: payload.state === 'success' ? 0x00ff00 : 0xff0000, // 성공이면 초록, 실패면 빨강
+          color: statusColor,
           fields: [
             {
               name: '📌 배포 상태',
-              value: `\`${payload.state}\``,
-              inline: true,
+              value: `\`${statusMessage}\``,
+              inline: false,
             },
             {
               name: '🔗 사이트 URL',
               value: `[바로가기](${payload.admin_url})`,
-              inline: true,
+              inline: false,
             },
             {
-              name: '⏳ 배포 시간',
-              value: `<t:${Math.floor(payload.deploy_time / 1000)}:F>`,
+              name: '⏳ 배포 소요 시간',
+              value: `\`${deployTimeString}\``,
               inline: false,
             },
             {
