@@ -13,14 +13,14 @@ const handler: Handler = async (event) => {
       payload.state === 'ready'
         ? 0x00ff00
         : payload.state === 'failed'
-        ? 0xff0000
-        : 0xffff00;
+          ? 0xff0000
+          : 0xffff00;
     const statusMessage =
       payload.state === 'ready'
         ? '배포 완료'
         : payload.state === 'failed'
-        ? '배포 실패'
-        : '배포 진행 중';
+          ? '배포 실패'
+          : '배포 진행 중';
 
     const discordMessage = {
       username: 'Netlify Bot',

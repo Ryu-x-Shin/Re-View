@@ -6,20 +6,24 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Home from './pages/Home';
 import FindPassword from './pages/FindPassword';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
 function App() {
   return (
-    <Routes>
-      <Route element={<AuthLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/findpassword" element={<FindPassword />} />
-      </Route>
+    <Provider store={store}>
+      <Routes>
+        <Route element={<AuthLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/findpassword" element={<FindPassword />} />
+        </Route>
 
-      <Route element={<MainLayout />}>
-        <Route index element={<Home />} />
-      </Route>
-    </Routes>
+        <Route element={<MainLayout />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
+    </Provider>
   );
 }
 
