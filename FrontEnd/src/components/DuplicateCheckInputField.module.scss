@@ -1,0 +1,47 @@
+@import '../styles/variable';
+
+.label {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 140%;
+  margin-bottom: 8px;
+}
+
+.btn {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor:pointer;
+}
+
+.btn-input {
+  margin-left: 10px;
+}
+
+.component {
+  margin: 24px 0;
+}
+
+.input {
+  height: 40px;
+  border: 1.5px solid $input-border-color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.input:focus {
+  border: 2px solid rgba($color: #000000, $alpha: 0.7);
+}
+
+.btn:hover {
+  background-color: rgba($color: black, $alpha: 0.8);
+}
+
+.flex-grow {
+  flex-grow: 1;
+}

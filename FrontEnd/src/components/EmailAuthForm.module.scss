@@ -21,8 +21,17 @@
   color: white;
   border: none;
   border-radius: 8px;
+  cursor:pointer;
 }
 
 .btn-input {
   margin: 0 10px;
+}
+
+.btn:hover {
+  background-color: rgba($color: black, $alpha: 0.8);
+}
+
+.component {
+  margin: 24px 0;
 }
