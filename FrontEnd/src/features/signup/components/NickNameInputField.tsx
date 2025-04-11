@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import DuplicateCheckInputField from './DuplicateCheckInputField';
-import { setNickname } from '../store/slices/signUpSlice';
-import { RootState } from '../store/store';
+import DuplicateCheckInputField from '../../../components/DuplicateCheckInputField';
+import { setNickname } from '../../../store/slices/signUpSlice';
+import { RootState } from '../../../store/store';
 
-const NickNameInput = () => {
+const NickNameInputField = () => {
   const dispatch = useDispatch();
   const nickname = useSelector((state: RootState) => state.signUp.nickname);
 
@@ -28,4 +28,4 @@ const NickNameInput = () => {
   );
 };
 
-export default NickNameInput;
+export default NickNameInputField;

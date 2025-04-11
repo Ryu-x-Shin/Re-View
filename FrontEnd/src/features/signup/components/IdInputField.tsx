@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import DuplicateCheckInputField from './DuplicateCheckInputField';
-import { setId } from '../store/slices/signUpSlice';
-import { RootState } from '../store/store';
+import DuplicateCheckInputField from '../../../components/DuplicateCheckInputField';
+import { setId } from '../../../store/slices/signUpSlice';
+import { RootState } from '../../../store/store';
 
-const IdInput = () => {
+const IdInputField = () => {
   const dispatch = useDispatch();
   const id = useSelector((state: RootState) => state.signUp.id);
 
@@ -28,4 +28,4 @@ const IdInput = () => {
   );
 };
 
-export default IdInput;
+export default IdInputField;
