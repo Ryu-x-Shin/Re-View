@@ -6,6 +6,7 @@ import { Routes, Route } from 'react-router-dom';
 import SignUp from './routes/SignUp';
 import Home from './routes/Home';
 import FindPassword from './routes/FindPassword';
+import '../styles/global.scss';
 
 function App() {
   return (

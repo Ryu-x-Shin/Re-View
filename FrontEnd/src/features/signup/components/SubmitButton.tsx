@@ -1,11 +1,9 @@
-import styles from './Signup.module.scss';
+import styles from './SubmitButton.module.scss';
 const SubmitButton = () => {
   return (
     <>
       <div className={`${styles.component}`}>
-        <button className={`${styles.btn} ${styles['full-width']}`}>
-          회원 가입
-        </button>
+        <button className={`${styles['component__btn']}`}>회원 가입</button>
       </div>
     </>
   );

@@ -9,7 +9,7 @@ import SubmitButton from './SubmitButton';
 const SignUpForm = () => {
   return (
     <div>
-      <p className={`${styles.label} inria-sans-regular`}>회원가입</p>
+      <p className={`${styles.label}`}>회원가입</p>
       <form className={styles.form}>
         <EmailAuthInputField />
         <IdInputField />

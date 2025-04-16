@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../../components/LoginForm.module.scss';
+import styles from './PasswordConfirmInputField.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { setPasswordConfirm } from '../../../store/slices/signUpSlice';
@@ -13,13 +13,13 @@ const PasswordConfirmInputField = () => {
   console.log('여기서 패스워드 Confirm 입력 Input이 리렌더링됨');
   return (
     <div className={styles.component}>
-      <label className={styles['label']} htmlFor="password confirm">
+      <label className={styles['component__label']} htmlFor="password confirm">
         Password 재입력
       </label>
       <div>
         <input
           id="password confirm"
-          className={styles['input']}
+          className={styles['component__input']}
           value={passwordConfirm}
           onChange={(e) => dispatch(setPasswordConfirm(e.target.value))}
         />
