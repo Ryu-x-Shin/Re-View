@@ -7,13 +7,14 @@ import SignUp from './routes/SignUp';
 import Home from './routes/Home';
 import FindPassword from './routes/FindPassword';
 import '../styles/global.scss';
+import Login from './routes/Login';
 
 function App() {
   return (
     // 각 경로들을 정의하기 위한 Routes
     <Routes>
       <Route element={<AuthLayout />}>
-        {/* <Route path="/login" element={<Login />} /> */}
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/findpassword" element={<FindPassword />} />
       </Route>

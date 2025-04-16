@@ -1,0 +1,25 @@
+@import '../../../styles/typography.scss';
+@import '../../../styles/variable.scss';
+
+.form {
+  width: 524px;
+  border: 1.5px solid $container-border-color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 0 24px;
+
+  &__login-failed{
+    display:"";
+    color: red  
+  }
+
+  &__login-init{
+    display:none;  
+  }
+}
+
+.label {
+  text-align: center;
+  font-size: 70px;
+  margin-bottom: 64px;
+}
