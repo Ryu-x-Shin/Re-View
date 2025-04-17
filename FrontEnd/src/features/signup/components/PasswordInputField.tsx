@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from './LoginForm.module.scss';
+import styles from './PasswordInputField.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/store';
-import { setPassword } from '../store/slices/signUpSlice';
+import { RootState } from '../../../store/store';
+import { setPassword } from '../../../store/slices/signUpSlice';
 
 const PasswordInputField = () => {
   const dispatch = useDispatch();
@@ -11,10 +11,13 @@ const PasswordInputField = () => {
   console.log('여기서 패스워드 입력 Input이 리렌더링됨');
   return (
     <div className={styles.component}>
-      <span className={styles['label']}>Password</span>
+      <label className={styles['component__label']} htmlFor="password">
+        Password
+      </label>
       <div>
         <input
-          className={styles['input']}
+          id="password"
+          className={styles['component__input']}
           value={password}
           onChange={(e) => dispatch(setPassword(e.target.value))}
         />

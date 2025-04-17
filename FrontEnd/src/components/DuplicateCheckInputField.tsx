@@ -20,9 +20,12 @@ const DuplicateCheckInputField: React.FC<DuplicateCheckInputFieldProps> = ({
   return (
     <>
       <div className={styles.component}>
-        <span className={styles.label}>{label}</span>
+        <label className={styles.label} htmlFor={label}>
+          {label}
+        </label>
         <div style={{ display: 'flex' }}>
           <input
+            id={label}
             className={`${styles.input} ${styles['flex-grow']}`}
             value={value}
             onChange={(e) => onChange(e)}
