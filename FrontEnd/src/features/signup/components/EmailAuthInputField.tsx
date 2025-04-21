@@ -28,7 +28,7 @@ const EmailAuthInputField = () => {
   const [timer, setTimer] = useState<Timer>({
     isEmailCodeSent: false,
     timerActive: false,
-    timerSeconds: 10,
+    timerSeconds: 330,
     intervalId: null,
   });
 
@@ -58,7 +58,7 @@ const EmailAuthInputField = () => {
           ...before,
           isEmailCodeSent: true,
           intervalId: id,
-          timerSeconds: 10,
+          timerSeconds: 330,
         };
       });
     }
