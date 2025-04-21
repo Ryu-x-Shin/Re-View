@@ -6,5 +6,8 @@
   },
   "scripts": {
     "prepare": "husky"
+  },
+  "dependencies": {
+    "motion": "^12.7.4"
   }
 }

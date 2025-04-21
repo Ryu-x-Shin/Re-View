@@ -1,14 +1,15 @@
 import React from 'react';
 import styles from './PasswordInputField.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { setPassword } from '../../../store/slices/signUpSlice';
+import { useFormContext } from 'react-hook-form';
+import FormValue from '../types/FormValue';
 
 const PasswordInputField = () => {
-  const dispatch = useDispatch();
-  const password = useSelector((state: RootState) => state.signUp.password);
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<FormValue>();
 
-  console.log('여기서 패스워드 입력 Input이 리렌더링됨');
+  console.log('PasswordInputField 리렌더링');
   return (
     <div className={styles.component}>
       <label className={styles['component__label']} htmlFor="password">
@@ -17,10 +18,14 @@ const PasswordInputField = () => {
       <div>
         <input
           id="password"
-          className={styles['component__input']}
-          value={password}
-          onChange={(e) => dispatch(setPassword(e.target.value))}
+          className={`${errors.password ? styles['component__input-error'] : styles['component__input']}`}
+          {...register('password', {
+            required: '패스워드를 입력해주세요.',
+          })}
         />
+        {errors.password && (
+          <p className={styles['error']}>{errors.password.message}</p>
+        )}
       </div>
     </div>
   );
