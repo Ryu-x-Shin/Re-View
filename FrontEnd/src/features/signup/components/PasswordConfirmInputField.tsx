@@ -1,16 +1,15 @@
 import React from 'react';
 import styles from './PasswordConfirmInputField.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
-import { setPasswordConfirm } from '../../../store/slices/signUpSlice';
+import { useFormContext } from 'react-hook-form';
+import FormValue from '../types/FormValue';
 
 const PasswordConfirmInputField = () => {
-  const dispatch = useDispatch();
-  const passwordConfirm = useSelector(
-    (state: RootState) => state.signUp.passwordConfirm,
-  );
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<FormValue>();
 
-  console.log('여기서 패스워드 Confirm 입력 Input이 리렌더링됨');
+  console.log('PasswordConfirmInputField 리렌더링');
   return (
     <div className={styles.component}>
       <label className={styles['component__label']} htmlFor="password confirm">
@@ -19,10 +18,14 @@ const PasswordConfirmInputField = () => {
       <div>
         <input
           id="password confirm"
-          className={styles['component__input']}
-          value={passwordConfirm}
-          onChange={(e) => dispatch(setPasswordConfirm(e.target.value))}
+          className={`${errors.passwordConfirm ? styles['component__input-error'] : styles['component__input']}`}
+          {...register('passwordConfirm', {
+            required: '패스워드를 다시 입력해주세요.',
+          })}
         />
+        {errors.passwordConfirm && (
+          <p className={styles['error']}>{errors.passwordConfirm.message}</p>
+        )}
       </div>
     </div>
   );

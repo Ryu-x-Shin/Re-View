@@ -43,6 +43,12 @@ export default [
       'react/prop-types': 'off', // TypeScript 사용 시 PropTypes 불필요
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      'prettier/prettier': [
+        'error',
+        {
+          endOfLine: 'auto',
+        }
+      ],
 
       // 추가적인 기업 표준 규칙 (예: import 정렬, 코드 복잡도 제한 등)
       // "no-console": "warn", // 프로덕션 빌드 전 콘솔 제거 등

@@ -1,20 +1,41 @@
 @import './variable';
+@import '../../../styles/variable';
 
 .email {
   display: flex;
   margin: 8px 0;
 
   &__input{
+    width: 185.33px;
     height: 40px;
     border: 1.5px solid $input-border-color;
     border-radius: 8px;
     box-sizing: border-box;
     outline: none;
     flex-grow: 1;
+    display: inline-block;
+
+    &:disabled{
+      border-color: $input-disable-color;
+      background-color: $input-disable-color;
+    }
+
     &:focus{
       border: 2px solid rgba($color: #000000, $alpha: 0.7);
     }
+
+    &-error{
+      height: 40px;
+      border: 1.5px solid $input-border-color;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      flex-grow: 1;
+      display: inline-block;
+      border-color: red;
+    }
   }
+  
   &__btn{
     height: 40px;
     font-size: 16px;
@@ -23,21 +44,33 @@
     color: white;
     border: none;
     border-radius: 8px;
+    margin: 0 10px;
+    // 버튼이 활성화 되어 있을 때만 가져다 댔을 때 pointer가 작동하도록 함
     cursor:pointer;
-    &:hover {
+    // 또한 버튼이 활성화 되어 있을 때만 가져다 댔을 때 버튼의 색깔을 다르게 함
+    &:hover{
       background-color: rgba($color: black, $alpha: 0.8);
     }
-
-    margin: 0 10px;
+  
+    // 비활성화 되었을 때 마우스 이벤트 전부 무시
+    &:disabled{
+      pointer-events: none;
+    }
   }
+}
+
+.error{
+  color: red;
+  font-size: 12px;
 }
 
 .auth-code {
   display: flex;
   margin: 8px 0;
-  margin-right: '140px';
+  
 
   &__input{
+    width: 185.33px;
     height: 40px;
     border: 1.5px solid $input-border-color;
     border-radius: 8px;
@@ -45,6 +78,22 @@
     outline: none;
     display: inline-block;
 
+    &-error{
+      height: 40px;
+      border: 1.5px solid $input-border-color;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      flex-grow: 1;
+      display: inline-block;
+      border-color: red;
+    }
+
+    &:disabled{
+      border-color: $input-disable-color;
+      background-color: $input-disable-color;
+    }
+    
     &:focus{
       border: 2px solid rgba($color: #000000, $alpha: 0.7);
     }
@@ -58,14 +107,18 @@
     color: white;
     border: none;
     border-radius: 8px;
+    min-width: 60px;
+    margin: 0 10px;
+    // 버튼이 활성화 되어 있을 때만 가져다 댔을 때 pointer가 작동하도록 함
     cursor:pointer;
-    &:hover {
+    // 또한 버튼이 활성화 되어 있을 때만 가져다 댔을 때 버튼의 색깔을 다르게 함
+    &:hover{
       background-color: rgba($color: black, $alpha: 0.8);
     }
-
-    min-width: 60px;
-
-    margin: 0 10px;
+    // 비활성화 되었을 때 마우스 이벤트 전부 무시
+    &:disabled{
+      pointer-events: none;
+    }
   }
 
   &__timer{
