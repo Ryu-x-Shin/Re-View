@@ -36,7 +36,7 @@ const EmailAuthInputField = () => {
     if (!timer.isEmailCodeSent) {
       const id = setInterval(() => {
         setTimer((before) => {
-          if (before.timerSeconds == 0) {
+          if (before.timerSeconds === 0) {
             clearInterval(before.intervalId!);
             return {
               ...before,
@@ -66,7 +66,7 @@ const EmailAuthInputField = () => {
 
   // 타이머가 작동해서 timerSeconds가 0이 됐을 때 timer 세는 것을 멈추게 하기 위한 사이드 이펙트
   useEffect(() => {
-    if (timer.intervalId && timer.timerSeconds == 0) {
+    if (timer.intervalId && timer.timerSeconds === 0) {
       // authContext.dispatch({ type: 'auth/timeOver' });
       reset({
         ...getValues(),
@@ -90,7 +90,7 @@ const EmailAuthInputField = () => {
             {...register('email', {
               required: '이메일을 입력해주세요.',
               pattern: {
-                value: /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                value: /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                 message: '유효한 이메일 형식이 아닙니다.',
               },
             })}
