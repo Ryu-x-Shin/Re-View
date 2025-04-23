@@ -13,7 +13,7 @@ const initialFormValue: FormValue = {
 };
 
 const onSubmit: SubmitHandler<FormValue> = (data) => console.log(data);
-console.log('닉네임 context도 변경됨');
+console.log('로그인 context도 변경됨');
 
 const LoginForm = () => {
   const method = useForm<FormValue>({
