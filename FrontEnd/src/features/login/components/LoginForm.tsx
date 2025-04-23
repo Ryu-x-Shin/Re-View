@@ -4,21 +4,37 @@ import styles from './LoginForm.module.scss';
 import LoginButton from './LoginButton';
 import SignUpField from './SignUpField';
 import FindPasswordField from './FindPasswordField';
+import FormValue from '../types/FormValue';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+
+const initialFormValue: FormValue = {
+  id: '',
+  password: '',
+};
+
+const onSubmit: SubmitHandler<FormValue> = (data) => console.log(data);
+console.log('닉네임 context도 변경됨');
 
 const LoginForm = () => {
+  const method = useForm<FormValue>({
+    defaultValues: initialFormValue,
+  });
+
   return (
     <div>
       <p className={`${styles.label}`}>Re:View</p>
-      <form className={styles.form}>
-        <IdInputField />
-        <PasswordInputField />
-        <p className={styles['form__login-init']}>
-          ~이유로 로그인에 실패했습니다.
-        </p>
-        <LoginButton />
-        <SignUpField />
-        <FindPasswordField />
-      </form>
+      <FormProvider {...method}>
+        <form className={styles.form} onSubmit={method.handleSubmit(onSubmit)}>
+          <IdInputField />
+          <PasswordInputField />
+          <p className={styles['form__login-init']}>
+            ~이유로 로그인에 실패했습니다.
+          </p>
+          <LoginButton />
+          <SignUpField />
+          <FindPasswordField />
+        </form>
+      </FormProvider>
     </div>
   );
 };

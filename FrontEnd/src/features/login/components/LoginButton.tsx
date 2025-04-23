@@ -3,7 +3,9 @@ const SubmitButton = () => {
   return (
     <>
       <div className={`${styles.component}`}>
-        <button className={`${styles['component__btn']}`}>로그인</button>
+        <button type="submit" className={`${styles['component__btn']}`}>
+          로그인
+        </button>
       </div>
     </>
   );
