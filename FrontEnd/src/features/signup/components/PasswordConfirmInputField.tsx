@@ -22,6 +22,7 @@ const PasswordConfirmInputField = () => {
           {...register('passwordConfirm', {
             required: '패스워드를 다시 입력해주세요.',
           })}
+          placeholder="패스워드를 다시 입력해주세요,"
         />
         {errors.passwordConfirm && (
           <p className={styles['error']}>{errors.passwordConfirm.message}</p>

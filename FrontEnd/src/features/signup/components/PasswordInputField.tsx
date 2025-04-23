@@ -22,6 +22,7 @@ const PasswordInputField = () => {
           {...register('password', {
             required: '패스워드를 입력해주세요.',
           })}
+          placeholder="패스워드를 입력해주세요."
         />
         {errors.password && (
           <p className={styles['error']}>{errors.password.message}</p>
