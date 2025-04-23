@@ -1,5 +1,19 @@
 @import '../../../styles/variable';
 
+.btn {
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor:pointer;
+  &:hover {
+    background-color: rgba($color: black, $alpha: 0.8);
+  }
+}
+
 .component {
   margin: 24px 0;
 
