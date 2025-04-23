@@ -64,9 +64,14 @@ export default [
                 // Feature 폴더 내에서 교차 import를 방지하는 규칙
                 // ex : target에서 from에 해당하는 경로의 파일들을 import할 수 없지만, except는 가능
                 {
-                    target: './src/features/auth',
+                  target: './src/features/logins',
+                  from: './src/features',
+                  except: ['./login'],
+                },
+                {
+                    target: './src/features/signup',
                     from: './src/features',
-                    except: ['./auth'],
+                    except: ['./signup'],
                 },
                 {
                     target: './src/features/comments',
