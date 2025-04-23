@@ -1,0 +1,43 @@
+@import '../../../styles/variable';
+
+.label {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 140%;
+  margin-bottom: 8px;
+}
+
+.component{
+  &__input{
+    width: 100%;
+    height: 40px;
+    border: 1.5px solid $input-border-color;
+    border-radius: 8px;
+    box-sizing: border-box;
+    outline: none;
+
+    &:focus {
+      border: 2px solid rgba($color: #000000, $alpha: 0.7);
+    }
+
+    &-error{
+      width: 100%;
+      height: 40px;
+      border: 1.5px solid $input-border-color;
+      border-radius: 8px;
+      box-sizing: border-box;
+      outline: none;
+      display: inline-block;
+      border-color: red;
+    }
+  }
+
+  .container {
+    margin: 24px 0;
+  }
+}
+
+.error{
+  color: red;
+  font-size: 12px;
+}

@@ -1,9 +1,7 @@
+import FindPw from '../../features/findpw/components/FindPw';
+
 const FindPassword = () => {
-  return (
-    <>
-      <p>비밀번호 찾기 페이지입니다.</p>
-    </>
-  );
+  return <FindPw />;
 };
 
 export default FindPassword;
