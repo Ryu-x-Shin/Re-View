@@ -2,11 +2,12 @@
 @import '../../../styles/variable.scss';
 
 .form {
-  width: 524px;
+  width: min(524px, 100%);
   border: 1.5px solid $container-border-color;
   border-radius: 8px;
   box-sizing: border-box;
   padding: 0 24px;
+  margin: 0 auto;
 
   &__login-failed{
     display:"";

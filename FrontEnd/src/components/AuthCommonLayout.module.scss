@@ -1,7 +1,9 @@
 // 가로 및 세로 가운데 정렬
 .container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: table-cell;
+  width:100vw;
+  margin: 0 auto;
+  padding: 0 12px;
+  vertical-align: middle;
   height: 100vh;
 }

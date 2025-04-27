@@ -1,0 +1,43 @@
+@import '../../../styles/variable.scss';
+
+.component {
+  margin: 24px 0;
+  display: flex;
+  
+
+  &__label{
+    width: 143px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: 400;
+    color: $hint-color;
+  }
+
+  &__link{
+    margin-left: 10px;
+    display: flex;
+    justify-content: flex-end;
+    width: min(320px, 100%);
+  }
+
+  &__btn{
+    white-space: nowrap;
+    width: min(320px, 100%);
+    height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;   
+    cursor:pointer;
+    
+    &:hover {
+      background-color: rgba($color: black, $alpha: 0.8);
+    } 
+  }
+}

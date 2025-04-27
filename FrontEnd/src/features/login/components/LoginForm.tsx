@@ -3,7 +3,7 @@ import PasswordInputField from './PasswordInputField';
 import styles from './LoginForm.module.scss';
 import LoginButton from './LoginButton';
 import SignUpField from './SignUpField';
-import FindPasswordField from './FindPasswordField';
+import FindBranchField from './FindBranchField';
 import FormValue from '../types/FormValue';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -21,7 +21,7 @@ const LoginForm = () => {
   });
 
   return (
-    <div>
+    <>
       <p className={`${styles.label}`}>Re:View</p>
       <FormProvider {...method}>
         <form className={styles.form} onSubmit={method.handleSubmit(onSubmit)}>
@@ -32,10 +32,10 @@ const LoginForm = () => {
           </p>
           <LoginButton />
           <SignUpField />
-          <FindPasswordField />
+          <FindBranchField />
         </form>
       </FormProvider>
-    </div>
+    </>
   );
 };
 

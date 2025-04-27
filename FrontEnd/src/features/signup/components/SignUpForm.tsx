@@ -87,7 +87,7 @@ const SignUpForm = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => console.log(data);
   console.log('SignUpForm 리렌더링');
   return (
-    <div className={styles.container}>
+    <>
       <p className={`${styles.label}`}>회원가입</p>
       <FormProvider {...method}>
         <form className={styles.form} onSubmit={method.handleSubmit(onSubmit)}>
@@ -105,7 +105,7 @@ const SignUpForm = () => {
           <SubmitButton />
         </form>
       </FormProvider>
-    </div>
+    </>
   );
 };
 
