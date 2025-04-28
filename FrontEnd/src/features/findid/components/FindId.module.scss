@@ -1,0 +1,16 @@
+@import '../../../styles/variable';
+
+.form {
+  width: min(524px, 100%);
+  border: 1.5px solid $container-border-color;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
+.label {
+  text-align: center;
+  font-size: 70px;
+  margin-bottom: 64px;
+}

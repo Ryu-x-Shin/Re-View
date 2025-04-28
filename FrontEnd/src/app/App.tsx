@@ -9,6 +9,7 @@ import FindPassword from './routes/FindPassword';
 import '../styles/global.scss';
 import Login from './routes/Login';
 import FindBranch from '../features/findbranch/components/FindBranch';
+import FindId from '../features/findid/components/FindId';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/findbranch" element={<FindBranch />} />
         <Route path="/findpassword" element={<FindPassword />} />
+        <Route path="/findid" element={<FindId />} />
       </Route>
 
       <Route element={<MainLayout />}>
