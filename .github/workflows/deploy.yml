@@ -28,6 +28,10 @@ jobs:
         working-directory: BackEnd
         run: echo "${{ secrets.DEPLOY_PROPERTIES }}" > ./DeploySettings.env
 
+      - name: 실행 권한 부여하기
+        working-directory: BackEnd
+        run: chmod +x gradlew
+
       - name: 테스트 및 빌드하기
         working-directory: BackEnd
         run: ./gradlew clean build
