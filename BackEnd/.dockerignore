@@ -1,0 +1,5 @@
+# 배포용 환경 파일 제외
+DeploySettings.env
+
+# Git 관련 파일 제외
+.gitignore
