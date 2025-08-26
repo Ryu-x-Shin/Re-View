@@ -1,0 +1,49 @@
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-style: italic;
+  margin-right: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+.imagePlaceholder {
+  width: 70px;
+  height: 90px;
+  background-color: #e9ecef;
+  margin-right: 16px;
+  border-radius: 4px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+  }
+  p {
+    font-size: 0.875rem;
+    color: #495057;
+    margin: 0 0 2px 0;
+  }
+  .dateRange {
+    color: #868e96;
+  }
+  .subDetail {
+    font-size: 0.8rem;
+    color: #adb5bd;
+  }
+}
