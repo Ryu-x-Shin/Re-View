@@ -93,6 +93,11 @@ export default [
                     from: './src/features',
                     except: ['./users'],
                 },
+                {
+                    target: './src/features/home',
+                    from: './src/features',
+                    except: ['./home'],
+                },
                 // 마찬가지로 features에서 app에 있는 내용을 import 할 수는 없음
                 {
                   target: './src/features',

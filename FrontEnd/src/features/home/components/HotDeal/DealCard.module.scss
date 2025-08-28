@@ -1,0 +1,91 @@
+/* DealCard 컴포넌트 전용 스타일 */
+.card {
+  width: 220px;
+  color: #ffffff;
+  font-family: Pretendard, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* 요소들 사이의 간격 */
+}
+
+.imageContainer {
+  position: relative; /* 자식 요소인 timeBadge를 위한 기준점 */
+  width: 100%;
+  padding-top: 130%; /* 썸네일의 높이를 너비에 비례하여 설정 */
+  background-color: #333;
+  border-radius: 12px;
+  overflow: hidden; /* 둥근 모서리 적용 */
+  
+  // 이미지 플레이스홀더 아이콘 스타일
+  &::after {
+    content: '🖼️';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: #555;
+  }
+}
+
+.timeBadge {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: #ffc107;
+  color: #000;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px; /* 텍스트 정보들 사이의 간격 */
+  
+  .title, .category, .date {
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .category, .date {
+    font-size: 0.9rem;
+    color: #adb5bd;
+  }
+}
+
+.priceSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+
+  .discount {
+    color: #ffc107;
+    font-size: 1.1rem;
+  }
+  
+  .originalPrice {
+    color: #6c757d;
+    text-decoration: line-through;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .finalPrice {
+    color: #000;;
+    font-size: 1.1rem;
+  }
+}

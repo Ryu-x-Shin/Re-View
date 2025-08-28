@@ -1,0 +1,120 @@
+/* Header 컴포넌트 전용 스타일 */
+.header {
+  /* 핵심: 상단에 고정 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  /* 레이아웃 */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+
+  /* 디자인 */
+  background-color: #ffffff;
+  border-bottom: 1px solid #e9ecef;
+  z-index: 1000; /* 다른 요소들 위에 있도록 설정 */
+  box-sizing: border-box; /* padding을 너비에 포함 */
+}
+
+/* 왼쪽 (로고) */
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* 중앙 (검색창) */
+.searchContainer {
+  position: relative;
+  width: 400px;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 10px 16px;
+  padding-right: 30px; /* X 버튼을 위한 공간 */
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+
+  &:focus {
+    outline: none;
+    border-color: #868e96;
+  }
+}
+
+.clearButton {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #868e96;
+  font-size: 1.2rem;
+  padding: 0;
+}
+
+/* 오른쪽 (메뉴 및 사용자 액션) */
+.rightSection {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 20px;
+  
+  a {
+    text-decoration: none;
+    color: #495057;
+    font-weight: 500;
+    &:hover {
+      color: #000;
+    }
+  }
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.notificationBell {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #495057;
+}
+
+.button {
+  padding: 8px 16px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.signIn {
+  background-color: #f8f9fa;
+  color: #343a40;
+  &:hover {
+    background-color: #e9ecef;
+  }
+}
+
+.register {
+  background-color: #343a40;
+  color: #ffffff;
+  border-color: #343a40;
+  &:hover {
+    background-color: #212529;
+  }
+}
