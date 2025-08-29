@@ -1,6 +1,7 @@
 import Header from '../../features/home/components/Header/Header';
 import SpecialOffers from '../../features/home/components/HotDeal/SpecialOffers';
 import HotRankings from '../../features/home/components/HotRanking/HotRankings';
+import BestReviews from '../../features/home/components/Review/BestReviews';
 
 const Home = () => {
   return (
@@ -17,6 +18,8 @@ const Home = () => {
       <HotRankings />
 
       <SpecialOffers />
+
+      <BestReviews />
     </div>
   );
 };
