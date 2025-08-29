@@ -1,0 +1,19 @@
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.sectionTitle {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  // 2개의 열을 만들고, 각 열이 동일한 너비를 갖도록 함
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 24px; /* 그리드 아이템 사이의 간격 */
+}

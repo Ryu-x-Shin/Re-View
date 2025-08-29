@@ -1,0 +1,92 @@
+.card {
+  display: flex;
+  gap: 24px;
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  padding: 24px;
+  border-radius: 8px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* 이미지를 제외한 나머지 공간을 모두 차지 */
+}
+
+.itemTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #868e96;
+  margin-bottom: 8px;
+  cursor: pointer;
+  
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.reviewTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 0 0 12px 0;
+  color: #212529;
+}
+
+.reviewBody {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #495057;
+  margin: 0 0 16px 0;
+  /* 여러 줄 말줄임 처리 */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rating {
+  margin-bottom: 20px;
+  .star {
+    font-size: 1.2rem;
+    color: #ffd400;
+  }
+  .emptyStar {
+    color: #e9ecef;
+  }
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto; /* 상단 요소들을 위로 밀고 자신은 아래에 붙도록 함 */
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e9ecef; // 아바타 이미지 없을 때를 위함
+}
+
+.userName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.imageContainer {
+  width: 140px;
+  height: 140px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  flex-shrink: 0; /* 카드가 줄어들어도 이미지 크기 유지 */
+
+  // 이미지 플레이스홀더 아이콘
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  color: #ced4da;
+}
