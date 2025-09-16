@@ -10,6 +10,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      EC2_HOST: ${{ secrets.EC2_HOST }}
+      MYSQL_PORT: ${{ secrets.MYSQL_PORT }}
+      MYSQL_USER: ${{ secrets.MYSQL_USER }}
+      MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      KAFKA_PORT: ${{ secrets.KAFKA_PORT }}
+      REDIS_HOST: ${{ secrets.REDIS_HOST }}
+      REDIS_PORT: ${{ secrets.REDIS_PORT }}
+      BASIC_PROFILE_URL: ${{ secrets.BASIC_PROFILE_URL }}
+      EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
     steps:
       - name: Github Repository에서 파일 불러오기
         uses: actions/checkout@v4
