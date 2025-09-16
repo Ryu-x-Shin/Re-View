@@ -25,7 +25,11 @@ public class SignUpEmailOtpService {
     public void generateAndSendOtp(String email) {
         String hashedEmail = HashGenerator.makeSha256(email);
         String otp = OtpGenerator.generate6DigitsOtp();
-        redisTemplate.opsForValue().set(OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
+        try {
+            redisTemplate.opsForValue().set(OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         EmailMessageDto message = EmailMessageDto.builder()
                 .to(email)
