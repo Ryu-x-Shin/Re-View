@@ -34,10 +34,10 @@ public class GlobalExceptionHandler {
         return ApiResponse.fail(GlobalError.MEDIATYPE_NOT_SUPPORTED);
     }
 
-    @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<?> handleDataAccessException(DataAccessException ex) {
-        return ApiResponse.fail(GlobalError.DATA_ACCESS_ERROR);
-    }
+//    @ExceptionHandler(DataAccessException.class)
+//    public ResponseEntity<?> handleDataAccessException(DataAccessException ex) {
+//        return ApiResponse.fail(GlobalError.DATA_ACCESS_ERROR);
+//    }
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException ex) {
