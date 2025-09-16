@@ -22,7 +22,7 @@ public class EmailConsumerService {
 
     @KafkaListener(
             topics = "member.signup.OTPEmail",
-            groupId = "signup-email-group")
+            groupId = "default-group")
     public void consume(String messageJson) {
         try {
             EmailMessageDto message = objectMapper.readValue(messageJson, EmailMessageDto.class);
