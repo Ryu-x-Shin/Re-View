@@ -22,12 +22,7 @@ public class EmailConsumerService {
 
     @KafkaListener(
             topics = "member.signup.OTPEmail",
-            groupId = "signup-email-group",
-            concurrency = "2")
-    @RetryableTopic(
-            attempts = "5",
-            backoff = @Backoff(delay = 1000, multiplier = 2),
-            dltTopicSuffix = ".dlt")
+            groupId = "signup-email-group")
     public void consume(String messageJson) {
         try {
             EmailMessageDto message = objectMapper.readValue(messageJson, EmailMessageDto.class);
