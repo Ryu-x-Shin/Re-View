@@ -13,8 +13,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfig {
 
-    public static final String OTP_PREFIX = "otp:";
-    public static final String VERIFIED_PREFIX = "verified:";
+    public static final String OTP_PREFIX = "OTP:";
+    public static final String VERIFIED_PREFIX = "Verified:";
 
     @Value("${spring.redis.host}")
     private String redisHost;
@@ -22,7 +22,7 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
-    // RedisConnectionFactory
+    // RedisConnectionFactory Bean
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration serverConfig = new RedisStandaloneConfiguration(redisHost, redisPort);

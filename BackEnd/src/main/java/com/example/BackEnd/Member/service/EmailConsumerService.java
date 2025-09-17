@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.annotation.RetryableTopic;
-import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
@@ -38,11 +36,7 @@ public class EmailConsumerService {
                     .source(message.getFrom())
                     .build();
 
-
-            long start = System.currentTimeMillis();
             sesClient.sendEmail(request);
-            long end = System.currentTimeMillis();
-            System.out.println("time : " + (end - start));
 
         } catch (JsonProcessingException e) {
             throw new BusinessException(GlobalError.JSON_PROCESSING_ERROR, e);

@@ -5,6 +5,7 @@ import com.example.BackEnd.Member.service.MemberService;
 import com.example.BackEnd.Member.service.SignUpEmailOtpService;
 import com.example.BackEnd.common.Response.ApiResponse;
 import com.example.BackEnd.common.enums.error_codes.MemberError;
+import com.example.BackEnd.common.enums.success_messages.GlobalSuccess;
 import com.example.BackEnd.common.enums.success_messages.MemberSuccess;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class MemberController {
         String email = request.getEmail();
         memberService.existsByEmail(email);
         signUpEmailOtpService.generateAndSendOtp(email);
-        return ApiResponse.success(MemberSuccess.EMAIL_SEND_SUCCESS);
+        return ApiResponse.success(GlobalSuccess.EMAIL_SEND_SUCCESS);
     }
 
     // 인증번호를 맞게 입력했는지 검증
@@ -41,7 +42,7 @@ public class MemberController {
     }
 
     // 최종적으로 회원가입
-    @PostMapping("/signup")
+    @PostMapping("/signUp")
     public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest request) {
         memberService.register(request);
         return ApiResponse.success(MemberSuccess.MEMBER_SIGNUP_SUCCESS);

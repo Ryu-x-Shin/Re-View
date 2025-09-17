@@ -25,17 +25,13 @@ public class SignUpEmailOtpService {
     public void generateAndSendOtp(String email) {
         String hashedEmail = HashGenerator.makeSha256(email);
         String otp = OtpGenerator.generate6DigitsOtp();
-        try {
-            redisTemplate.opsForValue().set(OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        redisTemplate.opsForValue().set(OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
 
         EmailMessageDto message = EmailMessageDto.builder()
                 .to(email)
                 .from(from)
                 .subject("[Re:view Project] 회원가입을 위한 이메일 인증번호입니다.")
-                .body("인증번호 : " + otp + "\n위 인증번호를 사이트에 입력해 주시기 바랍니다.")
+                .body("인증번호 : " + otp + "\n\n위 인증번호를 사이트에 입력해 주시기 바랍니다.")
                 .build();
 
         emailProducerService.sendEmail(message);
