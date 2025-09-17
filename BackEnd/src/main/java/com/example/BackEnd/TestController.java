@@ -10,7 +10,7 @@ public class TestController {
 
     @GetMapping
     public String cicdTester() {
-        return "Hi, World!!!!!!!!!!!!!!!!!!";
+        return "Hi, World!";
     }
 
 }
