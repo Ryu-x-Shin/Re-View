@@ -42,7 +42,7 @@ public class EmailConsumerService {
             long start = System.currentTimeMillis();
             sesClient.sendEmail(request);
             long end = System.currentTimeMillis();
-            System.out.println(end - start);
+            System.out.println("time : " + (end - start));
 
         } catch (JsonProcessingException e) {
             throw new BusinessException(GlobalError.JSON_PROCESSING_ERROR, e);
