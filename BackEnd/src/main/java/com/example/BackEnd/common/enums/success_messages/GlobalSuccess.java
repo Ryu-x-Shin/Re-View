@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum GlobalSuccess implements Success {
 
+    // 200
     EMAIL_SEND_SUCCESS(HttpStatus.OK.value(), "이메일을 성공적으로 전송하였습니다.");
 
     private final int code;

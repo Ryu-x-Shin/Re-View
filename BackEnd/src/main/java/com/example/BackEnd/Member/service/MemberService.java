@@ -3,6 +3,7 @@ package com.example.BackEnd.Member.service;
 import com.example.BackEnd.Member.Entity.Member;
 import com.example.BackEnd.Member.dto.SignUpRequest;
 import com.example.BackEnd.Member.repository.MemberRepository;
+import com.example.BackEnd.common.enums.error_codes.AuthError;
 import com.example.BackEnd.common.enums.error_codes.MemberError;
 import com.example.BackEnd.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class MemberService {
         });
 
         if (!signUpEmailOtpService.isVerified(request.getEmail())) {
-            throw new BusinessException(MemberError.EMAIL_NOT_VERIFIED);
+            throw new BusinessException(AuthError.EMAIL_NOT_VERIFIED);
         }
 
         Member member = Member.builder()

@@ -33,6 +33,7 @@ public class Member {
     private String profileImageUrl;
 
     @Column(nullable = false)
+    @Builder.Default
     private boolean deleted = false;
 
     private String refreshTokenHash;

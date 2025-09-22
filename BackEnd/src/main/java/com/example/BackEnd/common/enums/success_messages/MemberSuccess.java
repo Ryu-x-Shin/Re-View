@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum MemberSuccess implements Success {
 
-    USERNAME_CHECK_SUCCESS(HttpStatus.OK.value(), "사용 가능한 ID입니다."),
-    NICKNAME_CHECK_SUCCESS(HttpStatus.OK.value(), "사용 가능한 닉네임입니다."),
-    EMAIL_VERIFICATION_SUCCESS(HttpStatus.OK.value(), "이메일 인증에 성공하였습니다."),
+    // 200
+    MEMBER_LOGIN_SUCCESS(HttpStatus.OK.value(), "로그인에 성공하였습니다."),
 
+    // 201
     MEMBER_SIGNUP_SUCCESS(HttpStatus.CREATED.value(), "성공적으로 회원 가입되었습니다.");
 
     private final int code;

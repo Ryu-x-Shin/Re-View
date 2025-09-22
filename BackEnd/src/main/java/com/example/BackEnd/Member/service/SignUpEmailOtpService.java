@@ -9,8 +9,7 @@ import java.util.concurrent.TimeUnit;
 import com.example.BackEnd.common.utils.OtpGenerator;
 import com.example.BackEnd.common.utils.HashGenerator;
 
-import static com.example.BackEnd.config.RedisConfig.OTP_PREFIX;
-import static com.example.BackEnd.config.RedisConfig.VERIFIED_PREFIX;
+import static com.example.BackEnd.config.OTPConfig.*;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class SignUpEmailOtpService {
     public void generateAndSendOtp(String email) {
         String hashedEmail = HashGenerator.makeSha256(email);
         String otp = OtpGenerator.generate6DigitsOtp();
-        redisTemplate.opsForValue().set(OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(SIGNUP_OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
 
         EmailMessageDto message = EmailMessageDto.builder()
                 .to(email)
@@ -39,10 +38,10 @@ public class SignUpEmailOtpService {
 
     public boolean verifyOtp(String email, String otp) {
         String hashedEmail = HashGenerator.makeSha256(email);
-        String savedOtp = redisTemplate.opsForValue().get(OTP_PREFIX + hashedEmail);
+        String savedOtp = redisTemplate.opsForValue().get(SIGNUP_OTP_PREFIX + hashedEmail);
         if (savedOtp != null && savedOtp.equals(otp)) {
-            redisTemplate.opsForValue().set(VERIFIED_PREFIX + hashedEmail, "true", 15, TimeUnit.MINUTES);
-            redisTemplate.delete(OTP_PREFIX + hashedEmail);
+            redisTemplate.opsForValue().set(SIGNUP_VERIFIED_PREFIX + hashedEmail, "true", 15, TimeUnit.MINUTES);
+            redisTemplate.delete(SIGNUP_OTP_PREFIX + hashedEmail);
             return true;
         }
         return false;
@@ -50,6 +49,6 @@ public class SignUpEmailOtpService {
 
     public boolean isVerified(String email) {
         String hashedEmail = HashGenerator.makeSha256(email);
-        return "true".equals(redisTemplate.opsForValue().get(VERIFIED_PREFIX + hashedEmail));
+        return "true".equals(redisTemplate.opsForValue().get(SIGNUP_VERIFIED_PREFIX + hashedEmail));
     }
 }

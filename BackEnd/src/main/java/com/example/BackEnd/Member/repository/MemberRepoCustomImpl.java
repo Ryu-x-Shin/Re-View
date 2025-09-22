@@ -2,7 +2,6 @@ package com.example.BackEnd.Member.repository;
 
 import com.example.BackEnd.Member.Entity.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

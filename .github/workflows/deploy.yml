@@ -20,6 +20,7 @@ jobs:
       REDIS_PORT: ${{ secrets.REDIS_PORT }}
       BASIC_PROFILE_URL: ${{ secrets.BASIC_PROFILE_URL }}
       EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
     steps:
       - name: Github Repository에서 파일 불러오기
         uses: actions/checkout@v4

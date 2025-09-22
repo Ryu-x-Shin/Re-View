@@ -2,9 +2,19 @@ package com.example.BackEnd.common.Response;
 
 import com.example.BackEnd.common.enums.error_codes.Errors;
 import com.example.BackEnd.common.enums.success_messages.Success;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
 public class ApiResponse {
+
+    public static <T> ResponseEntity<SuccessResponse<T>> success(
+            Success response, T data, HttpHeaders headers) {
+
+        return ResponseEntity.status(response.getCode())
+                .headers(headers)
+                .body(SuccessResponse.of(response.getCode(), response.getMessage(), data));
+    }
+
     public static <T> ResponseEntity<SuccessResponse<T>> success(Success response, T data) {
         return ResponseEntity.status(response.getCode())
                 .body(SuccessResponse.of(response.getCode(), response.getMessage(), data));
