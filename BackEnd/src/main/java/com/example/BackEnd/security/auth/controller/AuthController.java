@@ -89,6 +89,16 @@ public class AuthController {
         return ApiResponse.success(AuthSuccess.TOKEN_REFRESH_SUCCESS, responseBody, headers);
     }
 
+    // 로그 아웃
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorizationHeader) {
+
+        String accessToken = authorizationHeader.substring(7);
+        authService.logout(accessToken);
+
+        return ApiResponse.success(MemberSuccess.MEMBER_LOGOUT_SUCCESS);
+    }
+
     private static ResponseCookie getRefreshTokenCookie(LoginResponse response) {
         return ResponseCookie.from("refreshToken", response.getRefreshToken())
                 .httpOnly(true)           // JS 접근 불가

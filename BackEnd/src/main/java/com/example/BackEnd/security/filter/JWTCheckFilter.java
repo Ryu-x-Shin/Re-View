@@ -29,7 +29,11 @@ public class JWTCheckFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getServletPath();
 
-        return pathMatcher.match("/auth/**", path)
+        return pathMatcher.match("/sampleTest", path)
+                || pathMatcher.match("/auth/send-otp", path)
+                || pathMatcher.match("/auth/verify-otp", path)
+                || pathMatcher.match("/auth/login", path)
+                || pathMatcher.match("/auth/refresh", path)
                 || pathMatcher.match("/members/**", path);
     }
 

@@ -1,6 +1,8 @@
 package com.example.BackEnd.Member.service;
 
 import com.example.BackEnd.common.dto.EmailMessageDto;
+import com.example.BackEnd.common.enums.error_codes.GlobalError;
+import com.example.BackEnd.common.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -24,7 +26,11 @@ public class SignUpEmailOtpService {
     public void generateAndSendOtp(String email) {
         String hashedEmail = HashGenerator.makeSha256(email);
         String otp = OtpGenerator.generate6DigitsOtp();
-        redisTemplate.opsForValue().set(SIGNUP_OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
+        try {
+            redisTemplate.opsForValue().set(SIGNUP_OTP_PREFIX + hashedEmail, otp, 5, TimeUnit.MINUTES);
+        } catch (Exception e) {
+            throw new BusinessException(GlobalError.REDIS_CONNECTION_ERROR);
+        }
 
         EmailMessageDto message = EmailMessageDto.builder()
                 .to(email)
@@ -40,8 +46,12 @@ public class SignUpEmailOtpService {
         String hashedEmail = HashGenerator.makeSha256(email);
         String savedOtp = redisTemplate.opsForValue().get(SIGNUP_OTP_PREFIX + hashedEmail);
         if (savedOtp != null && savedOtp.equals(otp)) {
-            redisTemplate.opsForValue().set(SIGNUP_VERIFIED_PREFIX + hashedEmail, "true", 15, TimeUnit.MINUTES);
-            redisTemplate.delete(SIGNUP_OTP_PREFIX + hashedEmail);
+            try {
+                redisTemplate.opsForValue().set(SIGNUP_VERIFIED_PREFIX + hashedEmail, "true", 15, TimeUnit.MINUTES);
+                redisTemplate.delete(SIGNUP_OTP_PREFIX + hashedEmail);
+            } catch (Exception e) {
+                throw new BusinessException(GlobalError.REDIS_CONNECTION_ERROR);
+            }
             return true;
         }
         return false;
