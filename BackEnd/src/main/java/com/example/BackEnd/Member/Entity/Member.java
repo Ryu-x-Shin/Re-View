@@ -14,6 +14,7 @@ public class Member {
     // PK -> Auto-increment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     // 사용자가 입력하는 ID
