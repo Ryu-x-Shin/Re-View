@@ -7,13 +7,12 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-
-@Table(name = "posts")
 @Getter
-@Entity
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "posts")
 public class Post {
 
     @Id
@@ -43,6 +42,8 @@ public class Post {
     private LocalDateTime createdAt;
 
     private LocalDateTime lastModifiedAt;
+
+    private Boolean isNotice;
 
     public void updatePost(String title, Work work, String content) {
         this.title = title;

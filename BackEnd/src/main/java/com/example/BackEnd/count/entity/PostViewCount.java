@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "post_likes_counts")
-public class PostLikeCount {
+@Table(name = "post_views_counts")
+public class PostViewCount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,6 +19,6 @@ public class PostLikeCount {
     private Long postId;
 
     @Builder.Default
-    private Long likeCounts = 0L;
+    private Long viewCounts = 0L;
 
 }

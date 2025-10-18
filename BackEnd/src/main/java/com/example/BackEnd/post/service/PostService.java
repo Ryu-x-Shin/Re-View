@@ -2,14 +2,17 @@ package com.example.BackEnd.post.service;
 
 import com.example.BackEnd.count.entity.CommentCount;
 import com.example.BackEnd.count.entity.PostLikeCount;
-import com.example.BackEnd.count.entity.ViewCount;
+import com.example.BackEnd.count.entity.PostViewCount;
 import com.example.BackEnd.count.repository.CommentCountRepository;
 import com.example.BackEnd.count.repository.ViewCountRepository;
+import com.example.BackEnd.post.dto.PageRequestPostDto;
 import com.example.BackEnd.post.dto.PostDetailsDto;
+import com.example.BackEnd.post.dto.PostListDto;
 import com.example.BackEnd.post.entity.Post;
 import com.example.BackEnd.count.repository.PostLikeCountRepository;
 import com.example.BackEnd.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -29,6 +32,12 @@ public class PostService {
     private final ViewCountRepository viewCountRepository;
     private final CommentCountRepository commentCountRepository;
 
+    // 게시글 목록 조회
+    @Transactional(readOnly = true)
+    public Page<PostListDto> getPostList(PageRequestPostDto pageRequestPostDto) {
+        return postRepository.getPostList(pageRequestPostDto);
+    }
+
     @Transactional
     public PostDetailsDto getPostDetails(Long postId, String memberKey) {
 
@@ -46,7 +55,7 @@ public class PostService {
         Long likeCount = Optional.of(postLikeCountRepository.findById(postId)
                 .map(PostLikeCount::getLikeCounts).orElse(0L)).orElse(0L);
         Long viewCount = Optional.of(viewCountRepository.findById(postId)
-                .map(ViewCount::getViewCounts).orElse(0L)).orElse(0L);
+                .map(PostViewCount::getViewCounts).orElse(0L)).orElse(0L);
         Long commentCount = Optional.of(commentCountRepository.findById(postId)
                 .map(CommentCount::getCommentCounts).orElse(0L)).orElse(0L);
 

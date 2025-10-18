@@ -3,26 +3,28 @@ package com.example.BackEnd.post.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostListDto {
 
-    private final Long id;
+    private Long postId;
 
-    private final String title;
+    private String title;
 
-    private final String nickName;
+    private String writer;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    private final Long viewCounts;
+    private Long viewCount;
 
-    private final Long likeCounts;
+    private Long likeCount;
 
-    private final Long commentCounts;
+    private Boolean isNotice;
 
 }

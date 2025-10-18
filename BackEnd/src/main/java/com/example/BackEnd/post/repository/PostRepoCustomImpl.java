@@ -1,22 +1,23 @@
 package com.example.BackEnd.post.repository;
 
+import com.example.BackEnd.post.dto.PageRequestPostDto;
 import com.example.BackEnd.post.dto.PostListDto;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.LongSupplier;
-
-import static com.example.BackEnd.count.entity.QCommentCount.commentCount;
 import static com.example.BackEnd.count.entity.QPostLikeCount.postLikeCount;
-import static com.example.BackEnd.count.entity.QViewCount.viewCount;
+import static com.example.BackEnd.count.entity.QPostViewCount.postViewCount;
 import static com.example.BackEnd.post.entity.QPost.post;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class PostRepoCustomImpl implements PostRepoCustom {
@@ -24,66 +25,96 @@ public class PostRepoCustomImpl implements PostRepoCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<PostListDto> findPostsForList(String sortBy, Pageable pageable) {
+    public Page<PostListDto> getPostList(PageRequestPostDto pageRequestPostDto) {
+        int pageNumber = pageRequestPostDto.getPageNumber();
+        int pageSize = pageRequestPostDto.getPageSize();
+        String sortBy = pageRequestPostDto.getSortBy();
 
-        JPAQuery<PostListDto> query = queryFactory
-                .select(Projections.constructor(
-                        PostListDto.class,
-                        post.id,    // 게시물 번호
-                        post.title, // 제목
-                        post.writer.nickname, // 작성자 닉네임
-                        post.createdAt, // 작성 시간
-                        viewCount.viewCounts.coalesce(0L),  // 조회 수
-                        postLikeCount.likeCounts.coalesce(0L),  // 좋아요 수
-                        commentCount.commentCounts.coalesce(0L) // 댓글 수
-                ))
+        // 정렬 조건
+        OrderSpecifier<?> orderSpecifier = getOrderSpecifier(sortBy);
+
+        // 일반글 조건
+        BooleanExpression generalPostCondition = getGeneralPostCondition();
+
+        // 공지글 조건
+        BooleanExpression noticePostCondition = getNoticePostCondition();
+
+        // 1. 일반 게시글(공지 제외) 페이징 조회
+        List<PostListDto> posts = queryFactory
+                .select(Projections.constructor(PostListDto.class,
+                        post.id,
+                        post.title,
+                        post.writer,
+                        post.createdAt,
+                        postViewCount.viewCounts.coalesce(0L),
+                        postLikeCount.likeCounts.coalesce(0L),
+                        post.isNotice))
                 .from(post)
-                .leftJoin(viewCount).on(post.id.eq(viewCount.postId))
-                .leftJoin(postLikeCount).on(post.id.eq(postLikeCount.postId))
-                .leftJoin(commentCount).on(post.id.eq(commentCount.postId))
-                .where(post.deleted.isFalse());
-
-        // 정렬 기준
-        switch (sortBy) {
-            case "views":
-                query.orderBy(viewCount.viewCounts.desc());
-                break;
-            case "likes":
-                query.orderBy(postLikeCount.likeCounts.desc());
-                break;
-            case "comments":
-                query.orderBy(commentCount.commentCounts.desc());
-                break;
-            default: // 기본 최신순
-                query.orderBy(post.createdAt.desc());
-        }
-
-        List<PostListDto> content = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .leftJoin(postViewCount).on(postViewCount.postId.eq(post.id))
+                .leftJoin(postLikeCount).on(postLikeCount.postId.eq(post.id))
+                .where(generalPostCondition)
+                .orderBy(orderSpecifier)
+                .offset(pageRequestPostDto.getOffset())
+                .limit(pageSize)
                 .fetch();
 
-        // Count Query 최적화
-        LongSupplier countSupplier = getPostListSupplier(pageable);
+        // 2. 1페이지면 공지글을 별도 조회
+        if (pageNumber == 1) {
+            List<PostListDto> noticePosts = queryFactory
+                    .select(Projections.constructor(PostListDto.class,
+                            post.id,
+                            post.title,
+                            post.writer,
+                            post.createdAt,
+                            postViewCount.viewCounts.coalesce(0L),
+                            postLikeCount.likeCounts.coalesce(0L),
+                            post.isNotice))
+                    .from(post)
+                    .leftJoin(postViewCount).on(postViewCount.postId.eq(post.id))
+                    .leftJoin(postLikeCount).on(postLikeCount.postId.eq(post.id))
+                    .where(noticePostCondition)
+                    .orderBy(post.createdAt.desc())
+                    .fetch();
 
-        return PageableExecutionUtils.getPage(content, pageable, countSupplier);
+            List<PostListDto> combined = new ArrayList<>(noticePosts.size() + posts.size());
+            combined.addAll(noticePosts);
+            combined.addAll(posts);
+            posts = combined;
+        }
 
+        // 3. 블록 활성화용 제한 count
+        int pageBlocks = 10;
+        int limitCount = (((pageNumber - 1) / pageBlocks) + 1) * pageSize * pageBlocks + 1;
+
+        // 4. Page 생성
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return PageableExecutionUtils.getPage(posts, pageable, getCountSupplier(limitCount));
     }
 
-    private LongSupplier getPostListSupplier(Pageable pageable) {
+    private static BooleanExpression getNoticePostCondition() {
+        return post.deleted.isFalse().and(post.isNotice.isTrue());
+    }
 
-        // 페이지 번호 활성화
-        int n = pageable.getPageNumber() + 1;
-        int m = pageable.getPageSize();
-        int limitCount = (((n - 1) / 10) + 1) * m * 10 + 1;
+    private static BooleanExpression getGeneralPostCondition() {
+        return post.deleted.isFalse().and(post.isNotice.isFalse());
+    }
 
-        return () ->
-                Optional.ofNullable(queryFactory
-                        .select(post.count())
+    private LongSupplier getCountSupplier(int limitCount) {
+        return () -> Optional.ofNullable(
+                queryFactory.select(post.count())
                         .from(post)
-                        .where(post.deleted.isFalse())
-                        .limit(limitCount)
-                        .fetchOne()).orElse(0L);
+                        .where(getGeneralPostCondition())
+                        .limit(limitCount)  // 블록 단위 최적화
+                        .fetchFirst()
+        ).orElse(0L);
+    }
+
+    private static OrderSpecifier<?> getOrderSpecifier(String sortBy) {
+        return switch (sortBy.toUpperCase()) {
+            case "LIKE" -> postLikeCount.likeCounts.desc();
+            case "VIEW" -> postViewCount.viewCounts.desc();
+            default -> post.createdAt.desc();
+        };
     }
 
 }
