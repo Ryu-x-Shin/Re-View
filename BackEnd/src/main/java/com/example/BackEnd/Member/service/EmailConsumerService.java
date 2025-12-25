@@ -1,15 +1,17 @@
 package com.example.BackEnd.Member.service;
 
 import com.example.BackEnd.common.dto.EmailMessageDto;
-import com.example.BackEnd.common.enums.error_codes.GlobalError;
 import com.example.BackEnd.common.exception.BusinessException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.services.ses.SesClient;
 import software.amazon.awssdk.services.ses.model.*;
+import lombok.*;
+
+import static com.example.BackEnd.common.constants.KafkaConstants.*;
+import static com.example.BackEnd.common.enums.error_codes.CommonErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -19,29 +21,31 @@ public class EmailConsumerService {
     private final ObjectMapper objectMapper;
 
     @KafkaListener(
-            topics = "member.signup.OTPEmail",
-            groupId = "basic-group")
-    public void consume(String messageJson) {
+            topics = SIGNUP_OTP_TOPIC,
+            groupId = GROUP_NAME)
+    public void consume(String jsonMessage) {
         try {
-            EmailMessageDto message = objectMapper.readValue(messageJson, EmailMessageDto.class);
-
-            SendEmailRequest request = SendEmailRequest.builder()
-                    .destination(Destination.builder().toAddresses(message.getTo()).build())
-                    .message(Message.builder()
-                            .subject(Content.builder().data(message.getSubject()).build())
-                            .body(Body.builder()
-                                    .text(Content.builder().data(message.getBody()).build())
-                                    .build())
-                            .build())
-                    .source(message.getFrom())
-                    .build();
-
-            sesClient.sendEmail(request);
-
+            EmailMessageDto message = objectMapper.readValue(jsonMessage, EmailMessageDto.class);
+            SendEmailRequest emailRequest = createEmailRequest(message);
+            sesClient.sendEmail(emailRequest);
         } catch (JsonProcessingException e) {
-            throw new BusinessException(GlobalError.JSON_PROCESSING_ERROR, e);
+            throw new BusinessException(JSON_PROCESSING_FAILED, e);
         } catch (Exception e) {
-            throw new BusinessException(GlobalError.EMAIL_SEND_FAILED, e);
+            throw new BusinessException(EMAIL_SEND_FAILED, e);
         }
     }
+
+    private SendEmailRequest createEmailRequest(EmailMessageDto message) {
+        return SendEmailRequest.builder()
+                .destination(Destination.builder().toAddresses(message.getTo()).build())
+                .message(Message.builder()
+                        .subject(Content.builder().data(message.getSubject()).build())
+                        .body(Body.builder()
+                                .text(Content.builder().data(message.getBody()).build())
+                                .build())
+                        .build())
+                .source(message.getFrom())
+                .build();
+    }
+
 }

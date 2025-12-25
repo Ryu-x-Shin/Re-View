@@ -1,21 +1,19 @@
 package com.example.BackEnd.security.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @ToString(exclude = "password")
 public class LoginRequest {
 
-    @NotBlank
-    private String username;
+    @NotBlank(message = "{member.username.notblank}")
+    private final String username;
 
-    @NotBlank
+    @NotBlank(message = "{member.password.notblank}")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    private final String password;
 
 }

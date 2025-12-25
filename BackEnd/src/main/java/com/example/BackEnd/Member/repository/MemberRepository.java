@@ -1,12 +1,17 @@
 package com.example.BackEnd.Member.repository;
 
 import com.example.BackEnd.Member.Entity.Member;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.data.repository.query.*;
+import java.util.*;
 
-import java.util.Optional;
+public interface MemberRepository extends JpaRepository<Member, Long> {
 
-public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepoCustom {
-
-    Optional<Member> findByUsernameAndDeletedFalse(String username);
+    @Query(value = "SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END FROM members WHERE username = :username",
+            nativeQuery = true)
+    boolean existsByUsernameIncludingDeleted(@Param("username") String username);
+    Optional<Member> findByUsername(String username);
+    boolean existsByNickname(String nickname);
+    boolean existsByEmail(String email);
 
 }

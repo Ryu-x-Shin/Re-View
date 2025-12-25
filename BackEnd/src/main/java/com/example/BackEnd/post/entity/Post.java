@@ -1,11 +1,12 @@
 package com.example.BackEnd.post.entity;
 
 import com.example.BackEnd.Member.Entity.Member;
+import com.example.BackEnd.common.entity.BaseTimeEntity;
 import com.example.BackEnd.work.entity.Work;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.SQLRestriction;
 
 @Getter
 @Builder
@@ -13,7 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "posts")
-public class Post {
+@SQLDelete(sql = "update posts set deleted = true where post_id = ?")
+@SQLRestriction("deleted = false")
+public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +32,7 @@ public class Post {
     private String content;
 
     @Builder.Default
-    private Boolean deleted = false;
+    private boolean deleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "writer_id")
@@ -39,21 +42,14 @@ public class Post {
     @JoinColumn(name = "work_id")
     private Work work;
 
-    private LocalDateTime createdAt;
+    @Builder.Default
+    private boolean isNotice = false;
 
-    private LocalDateTime lastModifiedAt;
-
-    private Boolean isNotice;
-
-    public void updatePost(String title, Work work, String content) {
+    public void updatePost(String title, String content, Work work, boolean isNotice) {
         this.title = title;
-        this.work = work;
         this.content = content;
-        this.lastModifiedAt = LocalDateTime.now();
-    }
-
-    public void softDelete() {
-        this.deleted = true;
+        this.work = work;
+        this.isNotice = isNotice;
     }
 
 }

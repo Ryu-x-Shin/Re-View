@@ -4,32 +4,29 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
+
+import static com.example.BackEnd.common.constants.RedisConstants.*;
 
 @Component
 public class JWTUtil {
 
     private final SecretKey key;
     private final StringRedisTemplate redisTemplate;
-    public static final String REFRESH_TOKEN_PREFIX = "auth:RefreshToken:";
     public static final String BLACKLIST_PREFIX = "auth:BlackList:";
     public static final Integer accessTokenTTL = 60 * 60 * 1000;
-    public static final Integer refreshTokenTTL = 7 * 24 * 60 * 60 * 1000;
 
     public JWTUtil(@Value("${jwt.secret}") String secret, StringRedisTemplate redisTemplate) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.redisTemplate = redisTemplate;
     }
 
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String username, List<String> roles) {
         return Jwts.builder()
                 .header()
                 .add("typ", "JWT")
@@ -40,11 +37,12 @@ public class JWTUtil {
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + accessTokenTTL))
                 .claim("type", "access")
+                .claim("roles", roles)
                 .signWith(key)
                 .compact();
     }
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String username, List<String> roles) {
         return Jwts.builder()
                 .header()
                 .add("typ", "JWT")
@@ -53,8 +51,9 @@ public class JWTUtil {
                 .subject(username)
                 .id(UUID.randomUUID().toString())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + refreshTokenTTL))
+                .expiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_TTL))
                 .claim("type", "refresh")
+                .claim("roles", roles)
                 .signWith(key)
                 .compact();
     }

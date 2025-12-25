@@ -1,24 +1,29 @@
 package com.example.BackEnd.Member.Entity;
 
-import jakarta.persistence.*;
+import com.example.BackEnd.common.entity.BaseTimeEntity;
 import lombok.*;
+import jakarta.persistence.*;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "members")
-public class Member {
+@SQLDelete(sql = "update members set deleted = true where member_id = ?")
+@SQLRestriction("deleted = false")
+public class Member extends BaseTimeEntity {
 
-    // PK -> Auto-increment
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
     // 사용자가 입력하는 ID
-    @Column(unique = true, nullable = false, length = 12)
+    @Column(unique = true, nullable = false, length = 30)
     private String username;
 
     @Column(nullable = false)
@@ -27,19 +32,17 @@ public class Member {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(unique = true, nullable = false, length = 12)
+    @Column(unique = true, nullable = false, length = 30)
     private String nickname;
 
     @Column(nullable = false)
     private String profileImageUrl;
 
     @Column(nullable = false)
-    @Builder.Default
-    private boolean deleted = false;
+    private boolean deleted;
 
-    private String refreshTokenHash;
+    private LocalDateTime deletedAt;
 
-    // 변경 메서드
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
@@ -52,12 +55,8 @@ public class Member {
         this.profileImageUrl = newUrl;
     }
 
-    public void changeDeleted(boolean newStatus) {
-        this.deleted = newStatus;
-    }
-
-    public void changeRefreshTokenHash(String newHash) {
-        this.refreshTokenHash = newHash;
+    public void deleteMember() {
+        this.deletedAt = LocalDateTime.now();
     }
 
 }

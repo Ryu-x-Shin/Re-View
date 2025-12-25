@@ -2,40 +2,31 @@ package com.example.BackEnd.Member.controller;
 
 import com.example.BackEnd.Member.dto.*;
 import com.example.BackEnd.Member.service.MemberService;
-import com.example.BackEnd.common.Response.ApiResponse;
-import com.example.BackEnd.common.enums.success_messages.AuthSuccess;
-import com.example.BackEnd.common.enums.success_messages.MemberSuccess;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.*;
+import lombok.*;
+
+import static com.example.BackEnd.common.Response.ApiResponse.*;
+import static com.example.BackEnd.common.enums.success_messages.MemberSuccessCode.*;
 
 @RestController
-@RequestMapping("/members")
 @RequiredArgsConstructor
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
 
-    // 최종적으로 회원가입
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signup(@RequestBody @Valid SignUpRequest request) {
-        memberService.register(request);
-        return ApiResponse.success(MemberSuccess.MEMBER_SIGNUP_SUCCESS);
+    @PostMapping("/username/exists")
+    public ResponseEntity<?> checkUsernameDuplication(@RequestBody @Valid UsernameValidationRequest request) {
+        memberService.checkUsernameDuplication(request.getUsername());
+        return success(USERNAME_AVAILABLE);
     }
 
-    // username 중복 확인
-    @PostMapping("/check-username")
-    public ResponseEntity<?> checkUsername(@RequestBody @Valid UsernameTaskRequest request) {
-        memberService.existsByUsername(request.getUsername());
-        return ApiResponse.success(AuthSuccess.USERNAME_CHECK_SUCCESS);
-    }
-
-    // nickname 중복 확인
-    @PostMapping("/check-nickname")
-    public ResponseEntity<?> checkNickname(@RequestBody @Valid NicknameTaskRequest request) {
-        memberService.existsByNickname(request.getNickname());
-        return ApiResponse.success(AuthSuccess.NICKNAME_CHECK_SUCCESS);
+    @PostMapping("/nickname/exists")
+    public ResponseEntity<?> checkNicknameDuplication(@RequestBody @Valid NicknameValidationRequest request) {
+        memberService.checkNicknameDuplication(request.getNickname());
+        return success(NICKNAME_AVAILABLE);
     }
 
 }

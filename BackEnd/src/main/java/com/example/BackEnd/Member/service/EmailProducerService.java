@@ -1,13 +1,15 @@
 package com.example.BackEnd.Member.service;
 
 import com.example.BackEnd.common.dto.EmailMessageDto;
-import com.example.BackEnd.common.enums.error_codes.GlobalError;
 import com.example.BackEnd.common.exception.BusinessException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import lombok.*;
+
+import static com.example.BackEnd.common.constants.KafkaConstants.*;
+import static com.example.BackEnd.common.enums.error_codes.CommonErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
@@ -18,12 +20,13 @@ public class EmailProducerService {
 
     public void sendEmail(EmailMessageDto message) {
         try {
-            String json = objectMapper.writeValueAsString(message);
-            kafkaTemplate.send("member.signup.OTPEmail", json);
+            String jsonMessage = objectMapper.writeValueAsString(message);
+            kafkaTemplate.send(SIGNUP_OTP_TOPIC, jsonMessage);
         } catch (JsonProcessingException e) {
-            throw new BusinessException(GlobalError.JSON_PROCESSING_ERROR, e);
+            throw new BusinessException(JSON_PROCESSING_FAILED, e);
         } catch (Exception e) {
-            throw new BusinessException(GlobalError.EMAIL_SEND_FAILED, e);
+            throw new BusinessException(EMAIL_SEND_FAILED, e);
         }
     }
+
 }

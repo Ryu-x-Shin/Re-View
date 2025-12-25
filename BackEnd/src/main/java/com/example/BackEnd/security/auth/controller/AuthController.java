@@ -1,25 +1,22 @@
 package com.example.BackEnd.security.auth.controller;
 
-import com.example.BackEnd.Member.dto.EmailTaskRequest;
-import com.example.BackEnd.Member.dto.VerifyOtpRequest;
+import com.example.BackEnd.Member.dto.*;
 import com.example.BackEnd.Member.service.MemberService;
-import com.example.BackEnd.Member.service.SignUpEmailOtpService;
-import com.example.BackEnd.common.enums.error_codes.AuthError;
-import com.example.BackEnd.common.enums.success_messages.AuthSuccess;
-import com.example.BackEnd.security.dto.LoginRequest;
-import com.example.BackEnd.security.dto.LoginResponse;
-import com.example.BackEnd.security.auth.service.AuthService;
-import com.example.BackEnd.common.Response.ApiResponse;
-import com.example.BackEnd.common.enums.success_messages.GlobalSuccess;
-import com.example.BackEnd.common.enums.success_messages.MemberSuccess;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import com.example.BackEnd.common.exception.BusinessException;
+import com.example.BackEnd.security.auth.dto.AuthTokens;
+import com.example.BackEnd.security.dto.*;
+import com.example.BackEnd.security.auth.service.*;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.*;
+import lombok.*;
 
-import java.util.Map;
+import static com.example.BackEnd.common.Response.ApiResponse.*;
+import static com.example.BackEnd.common.constants.CookieConstants.*;
+import static com.example.BackEnd.common.constants.HTTPConstants.*;
+import static com.example.BackEnd.common.enums.error_codes.AuthErrorCode.*;
+import static com.example.BackEnd.common.enums.success_messages.AuthSuccessCode.*;
+import static com.example.BackEnd.common.enums.success_messages.CommonSuccessCode.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,86 +24,79 @@ import java.util.Map;
 public class AuthController {
 
     private final MemberService memberService;
-    private final SignUpEmailOtpService signUpEmailOtpService;
     private final AuthService authService;
+    private final SignupOTPEmailService signupOTPEmailService;
 
-    // 인증번호 생성 및 전송
-    @PostMapping("/send-otp")
-    public ResponseEntity<?> generateAndSendOtp(@RequestBody @Valid EmailTaskRequest request) {
-        String email = request.getEmail();
-        memberService.existsByEmail(email);
-        signUpEmailOtpService.generateAndSendOtp(email);
-        return ApiResponse.success(GlobalSuccess.EMAIL_SEND_SUCCESS);
+    @PostMapping("/signup/send-otp")
+    public ResponseEntity<?> sendSignupOTPEmail(@RequestBody @Valid EmailOTPRequest request) {
+        memberService.checkEmailDuplication(request.getEmail());
+        signupOTPEmailService.saveOTPAndSendEmail(request.getEmail());
+        return success(EMAIL_SEND_SUCCESS);
     }
 
-    // 인증번호를 맞게 입력했는지 검증
-    @PostMapping("/verify-otp")
-    public ResponseEntity<?> verifyOtp(@RequestBody @Valid VerifyOtpRequest request) {
-        String email = request.getEmail();
-        String otp = request.getOtp();
-        boolean verified = signUpEmailOtpService.verifyOtp(email, otp);
-        if (verified) {
-            return ApiResponse.success(AuthSuccess.EMAIL_VERIFICATION_SUCCESS);
-        }
-        return ApiResponse.fail(AuthError.EMAIL_VERIFICATION_FAILED);
+    @PostMapping("/signup/verify-otp")
+    public ResponseEntity<?> verifyOTP(@RequestBody @Valid VerifyOTPRequest request) {
+        signupOTPEmailService.verifyOTP(request.getEmail(), request.getOTP());
+        return success(EMAIL_VERIFICATION_SUCCESS);
     }
 
-    // 로그인
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest request) {
+        authService.register(request);
+        return success(MEMBER_SIGNUP_SUCCESS);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) {
-        LoginResponse response = authService.login(request);
+        AuthTokens loginTokens = authService.login(request);
 
-        ResponseCookie refreshTokenCookie = getRefreshTokenCookie(response);
+        AccessTokenResponse accessTokenResponse = AccessTokenResponse.of(loginTokens.getAccessToken());
+        ResponseCookie refreshTokenCookie = createHttpOnlyCookieOfRefreshToken(loginTokens.getRefreshToken());
+        HttpHeaders headers = createHttpHeaders(refreshTokenCookie);
 
-        // Access Token Response
-        Map<String, String> responseBody = Map.of(
-                "accessToken", response.getAccessToken()
-        );
-
-        // Refresh Token Response
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-
-        return ApiResponse.success(MemberSuccess.MEMBER_LOGIN_SUCCESS, responseBody, headers);
+        return success(MEMBER_LOGIN_SUCCESS, accessTokenResponse, headers);
     }
 
-    // Token Refresh
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@CookieValue("refreshToken") String refreshToken) {
-        LoginResponse response = authService.refresh(refreshToken);
+    public ResponseEntity<?> refreshTokens(@CookieValue(value = REFRESH_TOKEN) String refreshToken) {
+        AuthTokens reissuedTokens = authService.reissueTokens(refreshToken);
 
-        ResponseCookie refreshTokenCookie = getRefreshTokenCookie(response);
+        AccessTokenResponse accessTokenResponse = AccessTokenResponse.of(reissuedTokens.getAccessToken());
+        ResponseCookie refreshTokenCookie = createHttpOnlyCookieOfRefreshToken(reissuedTokens.getRefreshToken());
+        HttpHeaders headers = createHttpHeaders(refreshTokenCookie);
 
-        // Access Token Response
-        Map<String, String> responseBody = Map.of(
-                "accessToken", response.getAccessToken()
-        );
+        return success(TOKEN_REFRESH_SUCCESS, accessTokenResponse, headers);
+    }
 
-        // Refresh Token Response
+    private ResponseCookie createHttpOnlyCookieOfRefreshToken(String refreshToken) {
+        return ResponseCookie.from(REFRESH_TOKEN, refreshToken)
+                .httpOnly(true)
+                //.secure(true)
+                .path(REFRESH_TOKEN_PATH)
+                .maxAge(REFRESH_TOKEN_MAX_AGE)
+                .sameSite(LAX)
+                .build();
+    }
+
+    private HttpHeaders createHttpHeaders(ResponseCookie refreshTokenCookie) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString());
-
-        return ApiResponse.success(AuthSuccess.TOKEN_REFRESH_SUCCESS, responseBody, headers);
+        return headers;
     }
 
-    // 로그 아웃
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorizationHeader) {
-
-        String accessToken = authorizationHeader.substring(7);
+    public ResponseEntity<?> logout(@RequestHeader(value = AUTHORIZATION_HEADER) String authorizationHeader) {
+        String accessToken = extractAccessTokenOrThrow(authorizationHeader);
         authService.logout(accessToken);
-
-        return ApiResponse.success(MemberSuccess.MEMBER_LOGOUT_SUCCESS);
+        return success(MEMBER_LOGOUT_SUCCESS);
     }
 
-    private static ResponseCookie getRefreshTokenCookie(LoginResponse response) {
-        return ResponseCookie.from("refreshToken", response.getRefreshToken())
-                .httpOnly(true)           // JS 접근 불가
-                //.secure(true)             // HTTPS 환경일 때만 전송
-                .path("/")                // 모든 경로에서 전송
-                .maxAge(7 * 24 * 60 * 60)
-                .sameSite("Lax")
-                .build();
+    private String extractAccessTokenOrThrow(String header) {
+        if (header.startsWith(TOKEN_PREFIX)) {
+            return header.substring(TOKEN_BEGIN_INDEX);
+        } else {
+            throw new BusinessException(INVALID_ACCESS_TOKEN);
+        }
     }
 
 }

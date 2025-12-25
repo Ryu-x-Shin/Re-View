@@ -1,6 +1,6 @@
 package com.example.BackEnd.security.filter;
 
-import com.example.BackEnd.common.enums.error_codes.AuthError;
+import com.example.BackEnd.common.enums.error_codes.AuthErrorCode;
 import com.example.BackEnd.common.exception.BusinessException;
 import com.example.BackEnd.common.utils.JWTUtil;
 import com.example.BackEnd.security.auth.dto.CustomMemberPrincipal;
@@ -17,6 +17,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -46,26 +47,27 @@ public class JWTCheckFilter extends OncePerRequestFilter {
 
         // 토큰 자체를 검증
         if (token == null || !jwtUtil.isValidated(token)) {
-            handleException(response, new BusinessException(AuthError.INVALID_ACCESS_TOKEN));
+            handleException(response, new BusinessException(AuthErrorCode.INVALID_ACCESS_TOKEN));
             return;
         }
 
         // 해당 token이 access token인지 확인
         String tokenType = jwtUtil.parseClaims(token).get("type", String.class);
         if (!"access".equals(tokenType)) {
-            handleException(response, new BusinessException(AuthError.INVALID_ACCESS_TOKEN));
+            handleException(response, new BusinessException(AuthErrorCode.INVALID_ACCESS_TOKEN));
             return;
         }
 
         // 블랙리스트 검증
         if (jwtUtil.isBlackListed(token)) {
-            handleException(response, new BusinessException(AuthError.INVALID_ACCESS_TOKEN));
+            handleException(response, new BusinessException(AuthErrorCode.INVALID_ACCESS_TOKEN));
             return;
         }
 
         String username = jwtUtil.parseClaims(token).getSubject();
+        List<String> roles = (List<String>) jwtUtil.parseClaims(token).get("roles");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                new CustomMemberPrincipal(username),
+                new CustomMemberPrincipal(username, roles),
                 null
             );
 
